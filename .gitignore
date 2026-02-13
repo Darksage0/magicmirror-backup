@@ -88,3 +88,33 @@ yarn.lock
 
 # Vitest temporary test files
 tests/**/.tmp/
+
+# Node modules (too large, regenerated)
+node_modules/
+modules/*/node_modules/
+
+# Lock files (regenerated)
+package-lock.json
+modules/*/package-lock.json
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# MMPM cache
+.mmpm/
+
+# Vendor files
+vendor/
+
+# Generated files
+installers/
+
+# Photos (backup separately)
+# Uncomment this if you're NOT storing photos in MagicMirror folder
+# If photos are elsewhere, you don't need this line

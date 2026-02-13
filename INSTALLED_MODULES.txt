@@ -1,0 +1,27 @@
+# MagicMirror Installed Modules
+# Generated on: Fri 13 Feb 21:41:40 IST 2026
+# This file is auto-generated - DO NOT EDIT MANUALLY
+
+=== CUSTOM MODULES ===
+MMM-FlipClock
+  → Has package.json (needs npm install)
+MMM-mmpm
+  → Has package.json (needs npm install)
+MMM-Multimonth
+  → Has package.json (needs npm install)
+MMM-Remote-Control
+  → Has package.json (needs npm install)
+MMM-Wallpaper
+  → Has package.json (needs npm install)
+
+=== DEFAULT MODULES ===
+alert
+calendar
+clock
+compliments
+helloworld
+newsfeed
+updatenotification
+weather
+
+Total custom modules: 5
