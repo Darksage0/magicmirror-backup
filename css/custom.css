@@ -1,0 +1,158 @@
+/* ============================================================
+   MagicMirror² — custom.css
+   Responsive spacing that scales with screen size
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────
+   1. GLOBAL TOKENS
+   ───────────────────────────────────────── */
+:root {
+  --gap-body-top:    10px;
+  --gap-body-right:  10px;
+  --gap-body-bottom: 10px;
+  --gap-body-left:   10px;
+  
+  /* Responsive module spacing - scales with screen height 
+     3vh = 3% of viewport height
+     On 1080px screen: 3vh = ~32px
+     On 1440px screen: 3vh = ~43px
+     On 720px screen:  3vh = ~22px
+  */
+  --gap-modules: 3vh;
+
+  --color-text:        #ffffff;
+  --color-text-dimmed: #dddddd;
+  --color-text-bright: #ffffff;
+
+  --image-radius: 12px;
+}
+
+
+/* ─────────────────────────────────────────
+   2. WALLPAPER PANEL
+   ───────────────────────────────────────── */
+.region.fullscreen.below {
+  inset:  unset !important;
+  bottom: auto !important;
+  right:  auto !important;
+
+  position:  fixed !important;
+  top:       55% !important;
+  left:      10px !important;
+  transform: translateY(-50%) !important;
+
+  width:  68% !important;
+  height: 70% !important;
+
+  background: transparent !important;
+  border-radius: var(--image-radius);
+  overflow: hidden !important;
+  z-index: 0;
+}
+
+
+/* ─────────────────────────────────────────
+   3. CONTENT-FILL
+   ───────────────────────────────────────── */
+.MMM-Wallpaper .content-fill {
+  width:  100% !important;
+  height: 100% !important;
+
+  display:         flex !important;
+  flex-direction:  row !important;
+  justify-content: flex-start !important;
+  align-items:     center !important;
+
+  background: transparent !important;
+}
+
+
+/* ─────────────────────────────────────────
+   4. THE IMAGE
+   ───────────────────────────────────────── */
+.MMM-Wallpaper img {
+  width:      auto !important;
+  height:     auto !important;
+  max-width:  100% !important;
+  max-height: 100% !important;
+
+  object-fit: contain !important;
+
+  margin:  0 !important;
+  display: block !important;
+  filter:  none !important;
+
+  border-radius: var(--image-radius) !important;
+}
+
+
+/* ─────────────────────────────────────────
+   5. MULTIMONTH CALENDAR THEMING
+   ───────────────────────────────────────── */
+.MMM-Multimonth .settings {
+  --background-header:   transparent;
+  --background-dow:      transparent;
+  --background-dowBlank: transparent;
+  --background-weekno:   transparent;
+  --background-event:    transparent;
+
+  --color-header:  var(--color-text-bright);
+  --color-dow:     var(--color-text-dimmed);
+  --color-weekno:  var(--color-text-dimmed);
+
+  --background-weekday: transparent;
+  --background-weekend: transparent;
+  --color-weekend:      #ff6b6b;
+
+  --background-today: var(--color-text-bright);
+  --color-today:      var(--color-background);
+
+  --back-rounding:    8px;
+  --alignment:        center;
+  --fontsize:         var(--font-size-small);
+  --smallEventMarker: 4px;
+}
+
+.MMM-Multimonth .dayContainer {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 0;
+  position: relative; /* Added: creates positioning context */
+}
+
+.MMM-Multimonth .events {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  pointer-events: none;
+ }
+ 
+.MMM-Multimonth .events {
+  display: none !important;  /* Hide the dots completely */
+}
+
+/* Today indicator */
+.MMM-Multimonth .today {
+  border-style: hidden;
+  background-color: var(--background-today);
+  color: var(--color-today);
+}
+
+/* Event indicator - same size as today, but hollow */
+.MMM-Multimonth .dayContainer:has(.event) .day {
+  border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  border-radius: var(--back-rounding) !important;
+  background-color: transparent !important;
+  box-sizing: border-box !important;
+}
+
+/* Make sure today indicator still shows with fill when it has events */
+.MMM-Multimonth .dayContainer:has(.event) .day.today {
+  background-color: var(--background-today) !important;
+  border: none !important;
+}
