@@ -38,6 +38,7 @@ let config =
 	timeFormat: 12,
 	units: "metric",
 
+
 	modules:
 	 [
 
@@ -120,6 +121,7 @@ let config =
 			position: "top_right",
 			config: 
 			{
+					
 					calendars: 
 					[
 					{

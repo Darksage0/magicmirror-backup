@@ -1,33 +1,31 @@
 /* ============================================================
    MagicMirror² — custom.css
-   Fully responsive layout that scales across 1080p and 2K
+   Responsive spacing that scales with screen size
    ============================================================ */
 
 
 /* ─────────────────────────────────────────
-   1. GLOBAL TOKENS  (viewport-relative)
+   1. GLOBAL TOKENS
    ───────────────────────────────────────── */
 :root {
-  /* Body gaps scale with viewport */
-  --gap-body-top:    0.7vh;
-  --gap-body-right:  0.5vw;
-  --gap-body-bottom: 0.7vh;
-  --gap-body-left:   0.5vw;
-
-  /* Module spacing — scales with screen height
-     2.5vh ≈ 27px on 1080p, ≈ 36px on 1440p */
-  --gap-modules: 2.5vh;
-
-  /* Root font size scales with viewport height
-     1.4vh ≈ 15px on 1080p, ≈ 20px on 1440p
-     This makes all rem-based sizes automatically responsive */
-  --font-size: 1.6vh;
+  --gap-body-top:    10px;
+  --gap-body-right:  10px;
+  --gap-body-bottom: 10px;
+  --gap-body-left:   10px;
+  
+  /* Responsive module spacing - scales with screen height 
+     3vh = 3% of viewport height
+     On 1080px screen: 3vh = ~32px
+     On 1440px screen: 3vh = ~43px
+     On 720px screen:  3vh = ~22px
+  */
+  --gap-modules: 3vh;
 
   --color-text:        #ffffff;
   --color-text-dimmed: #dddddd;
   --color-text-bright: #ffffff;
 
-  --image-radius: 0.8vw;
+  --image-radius: 12px;
 }
 
 
@@ -41,7 +39,7 @@
 
   position:  fixed !important;
   top:       55% !important;
-  left:      0.5vw !important;
+  left:      10px !important;
   transform: translateY(-50%) !important;
 
   width:  68% !important;
@@ -157,25 +155,4 @@
 .MMM-Multimonth .dayContainer:has(.event) .day.today {
   background-color: var(--background-today) !important;
   border: none !important;
-}
-
-
-/* ─────────────────────────────────────────
-   6. RESPONSIVE HEADER STYLING
-   ───────────────────────────────────────── */
-header {
-  line-height: 1.2;
-  padding-bottom: 0.4vh;
-  margin-bottom: 0.8vh;
-}
-
-
-/* ─────────────────────────────────────────
-   7. RIGHT MODULES — ROUNDED BORDER
-   ───────────────────────────────────────── */
-.region.top.right .module {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 1vw;
-  padding: 1.5vh 1vw;
-  background: rgba(255, 255, 255, 0.03);
 }
