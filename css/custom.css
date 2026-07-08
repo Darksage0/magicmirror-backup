@@ -1,6 +1,14 @@
 /* ============================================================
    MagicMirror² — custom.css
-   Fully responsive layout that scales across 1080p and 2K
+   PORTRAIT layout — 1080 × 1920 (21.5" monitor rotated 90°)
+
+   Top → bottom:
+     1. Flip clock + date  (top_bar, centered, enlarged)
+     2. Weather | Notable Days  (top_left / top_right pair)
+     3. Multi-month calendar  (upper_third, full-width row)
+     4. Newsfeed ticker  (bottom_bar, lifted above photos)
+     5. Photo slideshow  (fullscreen_below, bottom band,
+        edge-to-edge width, aspect ratio preserved)
    ============================================================ */
 
 
@@ -8,89 +16,136 @@
    1. GLOBAL TOKENS  (viewport-relative)
    ───────────────────────────────────────── */
 :root {
-  /* Body gaps scale with viewport */
-  --gap-body-top:    0.7vh;
-  --gap-body-right:  0.5vw;
-  --gap-body-bottom: 0.7vh;
-  --gap-body-left:   0.5vw;
+  --gap-body-top:    0.6vh;
+  --gap-body-right:  1.5vw;
+  --gap-body-bottom: 0vh;
+  --gap-body-left:   1.5vw;
 
-  /* Module spacing — scales with screen height
-     2.5vh ≈ 27px on 1080p, ≈ 36px on 1440p */
-  --gap-modules: 2.5vh;
+  --gap-modules: 1.2vh;
 
-  /* Root font size scales with viewport height
-     1.4vh ≈ 15px on 1080p, ≈ 20px on 1440p
-     This makes all rem-based sizes automatically responsive */
-  --font-size: 1.6vh;
+  /* ≈ 21px at 1920px height */
+  --font-size: 1.1vh;
 
   --color-text:        #ffffff;
   --color-text-dimmed: #dddddd;
   --color-text-bright: #ffffff;
 
-  --image-radius: 0.8vw;
+  --image-radius: 1.2vw;
+
+  /* Portrait layout bands (tune here) */
+  --photo-height:  44%;   /* photo band height from bottom  */
+  --calendar-top:  35%;   /* top edge of multi-month band   */
 }
 
 
 /* ─────────────────────────────────────────
-   2. WALLPAPER PANEL
+   2. FLIP CLOCK — top bar, centered, big
+   ───────────────────────────────────────── */
+.region.top.bar {
+  text-align: center;
+}
+
+.region.top.bar .module.MMM-FlipClock {
+  display: inline-block;
+  transform: scale(1.25);
+  transform-origin: top center;
+  margin-bottom: 3vh;               /* reserve space the scale() adds */
+}
+
+
+/* ─────────────────────────────────────────
+   3. WEATHER + NOTABLE DAYS — side-by-side
+   ───────────────────────────────────────── */
+.region.top.left  { width: 44vw; }
+.region.top.right { width: 44vw; }
+
+/* Card look for all info modules */
+.region.top.left .module,
+.region.top.right .module,
+.region.upper.third .module {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1.5vw;
+  padding: 1.2vh 1.5vw;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+
+/* ─────────────────────────────────────────
+   4. MULTI-MONTH CALENDAR — full-width band
+   ───────────────────────────────────────── */
+.region.upper.third {
+  top: var(--calendar-top);
+  transform: none;          /* main.css centers thirds with translateY(-50%) — cancel it */
+  left: var(--gap-body-left);
+  right: var(--gap-body-right);
+  width: auto;
+  text-align: center;
+}
+
+.region.upper.third .module {
+  display: inline-block;
+}
+
+
+/* ─────────────────────────────────────────
+   5. NEWSFEED — ticker just above the photos
+   ───────────────────────────────────────── */
+.region.bottom.bar {
+  bottom: calc(var(--photo-height) + 1.2vh);
+}
+
+
+/* ─────────────────────────────────────────
+   6. PHOTO SLIDESHOW — bottom band, edge to edge
    ───────────────────────────────────────── */
 .region.fullscreen.below {
   inset:  unset !important;
-  bottom: auto !important;
+  top:    auto !important;
   right:  auto !important;
 
-  position:  fixed !important;
-  top:       55% !important;
-  left:      0.5vw !important;
-  transform: translateY(-50%) !important;
+  position: fixed !important;
+  left:     0 !important;
+  bottom:   0 !important;
 
-  width:  68% !important;
-  height: 70% !important;
+  width:  100vw !important;
+  height: var(--photo-height) !important;
 
   background: transparent !important;
-  border-radius: var(--image-radius);
+  border-radius: 0;
   overflow: hidden !important;
   z-index: 0;
 }
 
-
-/* ─────────────────────────────────────────
-   3. CONTENT-FILL
-   ───────────────────────────────────────── */
 .MMM-Wallpaper .content-fill {
   width:  100% !important;
   height: 100% !important;
 
   display:         flex !important;
   flex-direction:  row !important;
-  justify-content: flex-start !important;
-  align-items:     center !important;
+  justify-content: center !important;   /* photos centered in the band */
+  align-items:     flex-end !important; /* flush with screen bottom    */
 
   background: transparent !important;
 }
 
-
-/* ─────────────────────────────────────────
-   4. THE IMAGE
-   ───────────────────────────────────────── */
 .MMM-Wallpaper img {
   width:      auto !important;
   height:     auto !important;
   max-width:  100% !important;
   max-height: 100% !important;
 
-  object-fit: contain !important;
+  object-fit: contain !important;       /* keep aspect ratio */
 
   margin:  0 !important;
   display: block !important;
   filter:  none !important;
 
-  border-radius: var(--image-radius) !important;
+  border-radius: var(--image-radius) var(--image-radius) 0 0 !important;
 }
 
 
 /* ─────────────────────────────────────────
-   5. MULTIMONTH CALENDAR THEMING
+   7. MULTIMONTH CALENDAR THEMING
    ───────────────────────────────────────── */
 .MMM-Multimonth .settings {
   --background-header:   transparent;
@@ -120,20 +175,9 @@
   display: flex;
   flex-flow: row wrap;
   flex: 1 0;
-  position: relative; /* Added: creates positioning context */
+  position: relative; /* creates positioning context */
 }
 
-.MMM-Multimonth .events {
-  position: absolute;
-  bottom: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: row;
-  gap: 2px;
-  pointer-events: none;
- }
- 
 .MMM-Multimonth .events {
   display: none !important;  /* Hide the dots completely */
 }
@@ -161,21 +205,10 @@
 
 
 /* ─────────────────────────────────────────
-   6. RESPONSIVE HEADER STYLING
+   8. RESPONSIVE HEADER STYLING
    ───────────────────────────────────────── */
 header {
   line-height: 1.2;
   padding-bottom: 0.4vh;
   margin-bottom: 0.8vh;
-}
-
-
-/* ─────────────────────────────────────────
-   7. RIGHT MODULES — ROUNDED BORDER
-   ───────────────────────────────────────── */
-.region.top.right .module {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 1vw;
-  padding: 1.5vh 1vw;
-  background: rgba(255, 255, 255, 0.03);
 }

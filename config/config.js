@@ -1,14 +1,17 @@
-													/* Config Sample
-													*
-													* For more information on how you can configure this file
-													* see https://docs.magicmirror.builders/configuration/introduction.html
-													* and https://docs.magicmirror.builders/modules/configuration.html
-													*
-													* You can use environment variables using a `config.js.template` file instead of `config.js`
-													* which will be converted to `config.js` while starting. For more information
-													* see https://docs.magicmirror.builders/configuration/introduction.html#enviromnent-variables
-													*/
-let config = 
+/* Config Sample
+ *
+ * For more information on how you can configure this file
+ * see https://docs.magicmirror.builders/configuration/introduction.html
+ * and https://docs.magicmirror.builders/modules/configuration.html
+ *
+ * PORTRAIT LAYOUT (1080x1920) — module regions:
+ *   top_bar      → MMM-FlipClock (big, centered)
+ *   top_left     → weather   |   top_right → calendar "Notable Days"  (side-by-side pair)
+ *   upper_third  → MMM-Multimonth (full-width, months in a row)
+ *   bottom_bar   → newsfeed (CSS moves it just above the photos)
+ *   fullscreen_below → MMM-Wallpaper (CSS pins it to the bottom band)
+ */
+let config =
 {
 	address: "0.0.0.0",								// Address to listen on, can be:
 													// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
@@ -19,20 +22,13 @@ let config =
 	basePath: "/",									// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
 													// you must set the sub path here. basePath must end with a /
 	ipWhitelist: [],								// Set [] to allow all IP addresses
-													// or add a specific IPv4 of 192.168.1.5 :
-													// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
-													// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
-													// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.3.0/28"],
 
 	useHttps: true,									// Support HTTPS or not, default "false" will use HTTP
 	httpsPrivateKey: "certs/private.key",			// HTTPS private key path, only require when useHttps is true
 	httpsCertificate: "certs/certificate.crt",		// HTTPS Certificate path, only require when useHttps is true
 
 	language: "en",
-	locale: "en-US",   								// this variable is provided as a consistent location
-													// it is currently only used by 3rd party modules. no MagicMirror code uses this value
-													// as we have no usage, we  have no constraints on what this field holds
-													// see https://en.wikipedia.org/wiki/Locale_(computer_software) for the possibilities
+	locale: "en-US",
 
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"], 	// Add "DEBUG" for even more logging
 	timeFormat: 12,
@@ -54,52 +50,36 @@ let config =
 
 
 		{
-  			 module: 'MMM-FlipClock',
-    		 position: 'top_left',
-   			 config: 
-			 {
-       												 // See 'Configuration options' for more information.
-    		 }
+			module: 'MMM-FlipClock',
+			position: 'top_bar',					// PORTRAIT: big centered clock at the very top
+			config:
+			{
+													// See 'Configuration options' for more information.
+			}
 
 		},
 
 
 		{
 			module: "MMM-Wallpaper",
-			position: "fullscreen_below",
-			config: 
-			{ 										// See "Configuration options" for more information.
+			position: "fullscreen_below",			// PORTRAIT: CSS pins this to the bottom band, full width
+			config:
+			{
 					source: "local:/home/pi5/Pictures/Magic Mirror Pics",
 					caption: false,
-					slideInterval: 30 * 1000,		// Change slides every minute
+					slideInterval: 30 * 1000,
 					maximumEntries: 10000,
 					shuffle: true,
 					crossfade: true
-													
+
 			}
 		},
 
 
-		/*		
-		{
-			module: "clock",
-			position: "top_left"
-		},		
-		*/ 											//closing default clock module
-		
-		
-		/*
-		{
-			module: "compliments",
-			position: "lower_third"
-		},
-		*/ 											//closing compliment module
-		
-		
 		{
 			module: "weather",
-			position: "top_right",
-			config: 
+			position: "top_left",					// PORTRAIT: left half of the side-by-side pair
+			config:
 			{
 					weatherProvider: "openmeteo",
 					type: "current",
@@ -109,20 +89,21 @@ let config =
 		},
 		{
 			module: 'MMM-Multimonth',
-			position: 'top_right', 					// can be any of the postions
-			config: 
-			{ 										// Optional - will default to 3 months, with one previous and one next, vertical orientation.
+			position: 'upper_third',				// PORTRAIT: full-width band below the pair
+			config:
+			{
+					monthsVertical: false			// lay the 3 months in a horizontal row
 			}
 		},
 
 		{
 			module: "calendar",
 			header: "Notable Days",
-			position: "top_right",
-			config: 
+			position: "top_right",					// PORTRAIT: right half of the side-by-side pair
+			config:
 			{
-					
-					calendars: 
+
+					calendars:
 					[
 					{
 						fetchInterval: 7 * 24 * 60 * 60 * 1000,
@@ -130,7 +111,7 @@ let config =
 						url: "https://www.officeholidays.com/ics-all/india/tamil-nadu"
 					}
 					],
-					
+
 			customEvents: [
 													// Array of {keyword: "", symbol: "", color: "", eventClass: ""} where Keyword is a regexp and symbol/color/eventClass are to be applied for matched
 			{ keyword: ".*", transform: { search: "Regional Holiday", replace: "" } },
@@ -142,30 +123,12 @@ let config =
 		},
 
 
-		
-
-
-		/*
-		{
-			module: "weather",
-			position: "top_right",
-			header: "Weather Forecast",
-			config: {
-				weatherProvider: "openmeteo",
-				type: "forecast",
-				lat: 12.97694,
-				lon: 80.22972
-			}
-		},
-		*/
-
-
 		{
 			module: "newsfeed",
-			position: "bottom_bar",
-			config: 
+			position: "bottom_bar",					// PORTRAIT: CSS lifts this just above the photo band
+			config:
 			{
-				feeds: 
+				feeds:
 					[
 					{
 						title: "The Hindu",
@@ -180,12 +143,12 @@ let config =
 		},
 
 
-		
+
 		{
 			module: "MMM-mmpm",
 			position: "",
 		},
-				
+
 	]
 };
 
