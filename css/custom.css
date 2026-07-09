@@ -80,7 +80,7 @@
 .region.top.left .module,
 .region.top.right .module,
 .region.upper.third .module.MMM-Multimonth {
-  border: 2px solid rgba(255, 255, 255, 0.18);
+  border: 3px solid rgba(255, 255, 255, 0.22);
   border-radius: 1.5vw;
   padding: 1.2vh 1.5vw;
   background: rgba(255, 255, 255, 0.03);
