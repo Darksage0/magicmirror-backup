@@ -51,10 +51,10 @@ let config =
 
 		{
 			module: 'MMM-FlipClock',
-			position: 'top_bar',					// PORTRAIT: big centered clock at the very top
+			position: 'top_bar',					// PORTRAIT: full-width clock at the very top
 			config:
 			{
-													// See 'Configuration options' for more information.
+					showDate: false					// date is shown by the default clock module below the cards
 			}
 
 		},
@@ -88,8 +88,19 @@ let config =
 			}
 		},
 		{
+			module: "clock",
+			position: "upper_third",				// PORTRAIT: date line below the weather/notable cards
+			config:
+			{
+					showTime: false,				// date only — time is the flip clock's job
+					showDate: true,
+					dateFormat: "dddd, LL"
+			}
+		},
+
+		{
 			module: 'MMM-Multimonth',
-			position: 'upper_third',				// PORTRAIT: full-width band below the pair
+			position: 'upper_third',				// PORTRAIT: full-width band below the date line
 			config:
 			{
 					monthsVertical: false			// lay the 3 months in a horizontal row

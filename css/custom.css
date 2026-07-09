@@ -34,8 +34,8 @@
   --image-radius: 1.2vw;
 
   /* Portrait layout bands (tune here) */
-  --photo-height:  44%;   /* photo band height from bottom  */
-  --calendar-top:  35%;   /* top edge of multi-month band   */
+  --photo-height:  42.5%; /* photo band height from bottom  */
+  --calendar-top:  33.5%; /* top edge of date + calendar band */
 }
 
 
@@ -48,9 +48,14 @@
 
 .region.top.bar .module.MMM-FlipClock {
   display: inline-block;
-  transform: scale(1.25);
-  transform-origin: top center;
-  margin-bottom: 3vh;               /* reserve space the scale() adds */
+  margin-bottom: 0.5vh;
+}
+
+/* The tick library sizes digits at 5em of this wrapper, so this
+   value is the overall clock scale: 1.43 × base width (~750px)
+   makes the digit cards span the full 1070px frame width. */
+.MMM-FlipClock .tick {
+  font-size: 1.43rem !important;
 }
 
 /* The empty updatenotification module above the clock still
@@ -74,7 +79,7 @@
 /* Card look for all info modules */
 .region.top.left .module,
 .region.top.right .module,
-.region.upper.third .module {
+.region.upper.third .module.MMM-Multimonth {
   border: 2px solid rgba(255, 255, 255, 0.18);
   border-radius: 1.5vw;
   padding: 1.2vh 1.5vw;
@@ -96,8 +101,17 @@
   text-align: center;
 }
 
-.region.upper.third .module {
+.region.upper.third .module.MMM-Multimonth {
   display: block;    /* full-width card, edges aligned with the pair above */
+}
+
+/* Date line (default clock module, date-only) above the calendar card */
+.region.upper.third .module.clock {
+  margin-bottom: 1vh;
+}
+.region.upper.third .clock .date {
+  font-size: 1.5rem;
+  color: var(--color-text-bright);
 }
 
 
