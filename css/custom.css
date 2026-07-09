@@ -16,10 +16,11 @@
    1. GLOBAL TOKENS  (viewport-relative)
    ───────────────────────────────────────── */
 :root {
-  --gap-body-top:    0.6vh;
-  --gap-body-right:  1.5vw;
-  --gap-body-bottom: 0vh;
-  --gap-body-left:   1.5vw;
+  /* uniform 5px frame around the entire mirror */
+  --gap-body-top:    5px;
+  --gap-body-right:  5px;
+  --gap-body-bottom: 5px;
+  --gap-body-left:   5px;
 
   --gap-modules: 1.2vh;
 
@@ -55,18 +56,22 @@
 
 /* ─────────────────────────────────────────
    3. WEATHER + NOTABLE DAYS — side-by-side
+      (edges aligned to the 5px body frame,
+       10px gutter between the two cards)
    ───────────────────────────────────────── */
-.region.top.left  { width: 44vw; }
-.region.top.right { width: 44vw; }
+.region.top.left  { width: calc(50vw - 10px); }
+.region.top.right { width: calc(50vw - 10px); }
 
 /* Card look for all info modules */
 .region.top.left .module,
 .region.top.right .module,
 .region.upper.third .module {
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.18);
   border-radius: 1.5vw;
   padding: 1.2vh 1.5vw;
   background: rgba(255, 255, 255, 0.03);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 
@@ -83,7 +88,7 @@
 }
 
 .region.upper.third .module {
-  display: inline-block;
+  display: block;    /* full-width card, edges aligned with the pair above */
 }
 
 
@@ -92,7 +97,7 @@
       just above the photos
    ───────────────────────────────────────── */
 .region.bottom.bar {
-  bottom: calc(var(--photo-height) + 1.2vh);
+  bottom: calc(var(--photo-height) + 5px + 1.2vh);
   overflow: hidden;
 }
 
@@ -133,14 +138,14 @@
   right:  auto !important;
 
   position: fixed !important;
-  left:     0 !important;
-  bottom:   0 !important;
+  left:     5px !important;
+  bottom:   5px !important;
 
-  width:  100vw !important;
+  width:  calc(100vw - 10px) !important;
   height: var(--photo-height) !important;
 
   background: transparent !important;
-  border-radius: 0;
+  border-radius: var(--image-radius);
   overflow: hidden !important;
   z-index: 0;
 }
@@ -169,7 +174,7 @@
   display: block !important;
   filter:  none !important;
 
-  border-radius: var(--image-radius) var(--image-radius) 0 0 !important;
+  border-radius: var(--image-radius) !important;
 }
 
 

@@ -102,6 +102,7 @@ let config =
 			position: "top_right",					// PORTRAIT: right half of the side-by-side pair
 			config:
 			{
+					fade: false,					// no dimming of later entries
 
 					calendars:
 					[
