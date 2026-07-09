@@ -53,6 +53,15 @@
   margin-bottom: 3vh;               /* reserve space the scale() adds */
 }
 
+/* The empty updatenotification module above the clock still
+   carries a --gap-modules bottom margin (measured 21px) —
+   drop it while the module has no content so the clock hugs
+   the 5px top frame. When an update notice appears, the
+   margin comes back automatically. */
+.region.top.bar .module.updatenotification:not(:has(.module-content div:not(:empty))) {
+  margin-bottom: 0;
+}
+
 
 /* ─────────────────────────────────────────
    3. WEATHER + NOTABLE DAYS — side-by-side
