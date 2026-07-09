@@ -138,7 +138,10 @@ let config =
 				showSourceTitle: true,
 				showPublishDate: true,
 				broadcastNewsFeeds: true,
-				broadcastNewsUpdates: true
+				broadcastNewsUpdates: true,
+				wrapTitle: false,				// single line — CSS scrolls it as a ticker
+				updateInterval: 18 * 1000,		// must match the 18s news-ticker CSS animation
+				animationSpeed: 0				// no fade — headlines swap off-screen
 			}
 		},
 

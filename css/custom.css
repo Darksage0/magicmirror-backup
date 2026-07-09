@@ -88,10 +88,39 @@
 
 
 /* ─────────────────────────────────────────
-   5. NEWSFEED — ticker just above the photos
+   5. NEWSFEED — single-line running ticker
+      just above the photos
    ───────────────────────────────────────── */
 .region.bottom.bar {
   bottom: calc(var(--photo-height) + 1.2vh);
+  overflow: hidden;
+}
+
+.newsfeed .module-content {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* One marquee line: starts off-screen right (padding-left: 100%
+   = parent width), scrolls fully off the left edge. Duration must
+   match the module's updateInterval (18 s) so each headline makes
+   exactly one pass before the next one starts. */
+.newsfeed .module-content > div {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: news-ticker 18s linear infinite;
+  will-change: transform;
+}
+
+.newsfeed .newsfeed-source,
+.newsfeed .newsfeed-title {
+  display: inline;
+}
+
+@keyframes news-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
 
 
