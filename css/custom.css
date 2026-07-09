@@ -33,9 +33,13 @@
 
   --image-radius: 1.2vw;
 
-  /* Portrait layout bands (tune here) */
-  --photo-height:  42.5%; /* photo band height from bottom  */
-  --calendar-top:  34.5%; /* top edge of multi-month band   */
+  /* Portrait layout bands (tune here).
+     Values chosen so every section gap = --section-gap:
+     date→cards, cards→calendar, calendar→news, news→photo. */
+  --section-gap:   1.042vh;  /* = 20px at 1920 — keep vh so it renders
+                                the same on any viewport size */
+  --photo-height:  40.3%; /* photo band height from bottom  */
+  --calendar-top:  36.4%; /* top edge of multi-month band   */
 }
 
 
@@ -105,9 +109,11 @@
   display: block;    /* full-width card, edges aligned with the pair above */
 }
 
-/* Date line (default clock module, date-only) between clock and cards */
+/* Date line (default clock module, date-only) between clock and cards.
+   Its bottom margin IS the gap to the cards below. */
 .region.top.bar .module.clock {
-  margin-bottom: 0.6vh;
+  /* this margin IS the gap to the cards below */
+  margin-bottom: var(--section-gap);
 }
 .region.top.bar .clock .date {
   font-size: 1.5rem;
@@ -120,7 +126,8 @@
       just above the photos
    ───────────────────────────────────────── */
 .region.bottom.bar {
-  bottom: calc(var(--photo-height) + 5px + 0.4vh);
+  /* 5px frame + one section gap above the photo band */
+  bottom: calc(var(--photo-height) + 5px + var(--section-gap));
   overflow: hidden;
 }
 
