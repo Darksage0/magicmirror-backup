@@ -89,7 +89,7 @@ let config =
 		},
 		{
 			module: "clock",
-			position: "upper_third",				// PORTRAIT: date line below the weather/notable cards
+			position: "top_bar",					// PORTRAIT: date line between flip clock and the cards
 			config:
 			{
 					showTime: false,				// date only — time is the flip clock's job

@@ -35,7 +35,7 @@
 
   /* Portrait layout bands (tune here) */
   --photo-height:  42.5%; /* photo band height from bottom  */
-  --calendar-top:  33.5%; /* top edge of date + calendar band */
+  --calendar-top:  34.5%; /* top edge of multi-month band   */
 }
 
 
@@ -105,11 +105,11 @@
   display: block;    /* full-width card, edges aligned with the pair above */
 }
 
-/* Date line (default clock module, date-only) above the calendar card */
-.region.upper.third .module.clock {
-  margin-bottom: 1vh;
+/* Date line (default clock module, date-only) between clock and cards */
+.region.top.bar .module.clock {
+  margin-bottom: 0.6vh;
 }
-.region.upper.third .clock .date {
+.region.top.bar .clock .date {
   font-size: 1.5rem;
   color: var(--color-text-bright);
 }
