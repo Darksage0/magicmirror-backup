@@ -97,7 +97,7 @@
       just above the photos
    ───────────────────────────────────────── */
 .region.bottom.bar {
-  bottom: calc(var(--photo-height) + 5px + 1.2vh);
+  bottom: calc(var(--photo-height) + 5px + 0.4vh);
   overflow: hidden;
 }
 
@@ -216,25 +216,51 @@
   display: none !important;  /* Hide the dots completely */
 }
 
-/* Today indicator */
+/* ── Even grid: every day cell has identical, fixed geometry.
+      A permanent transparent 2px border reserves the highlight
+      space, so today/event styling changes COLOR only — cell
+      size and row spacing never shift. ── */
+.MMM-Multimonth .day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.75em;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: var(--back-rounding);
+}
+
+/* consistent breathing room between rows and between months */
+.MMM-Multimonth .weekContainer {
+  margin: 1px 0;
+  flex: 0 0 auto;   /* natural row height — don't stretch to fill */
+}
+.MMM-Multimonth .month {
+  padding: 0 0.6vw;
+  justify-content: flex-start;  /* top-align; a 6-week month (e.g. August)
+                                   just extends lower with the SAME row
+                                   rhythm instead of squeezing its rows */
+}
+
+/* Event indicator — hollow outline, same geometry */
+.MMM-Multimonth .dayContainer:has(.event) .day {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: transparent !important;
+}
+
+/* Today — filled pill, same geometry (module CSS uses
+   border-style: hidden which would collapse the border) */
 .MMM-Multimonth .today {
-  border-style: hidden;
+  border-style: solid;
+  border-color: transparent;
   background-color: var(--background-today);
   color: var(--color-today);
 }
 
-/* Event indicator - same size as today, but hollow */
-.MMM-Multimonth .dayContainer:has(.event) .day {
-  border: 2px solid rgba(255, 255, 255, 0.5) !important;
-  border-radius: var(--back-rounding) !important;
-  background-color: transparent !important;
-  box-sizing: border-box !important;
-}
-
-/* Make sure today indicator still shows with fill when it has events */
+/* Today wins over the event outline when both apply */
 .MMM-Multimonth .dayContainer:has(.event) .day.today {
   background-color: var(--background-today) !important;
-  border: none !important;
+  border-color: transparent !important;
 }
 
 
