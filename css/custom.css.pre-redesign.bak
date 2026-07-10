@@ -1,0 +1,304 @@
+/* ============================================================
+   MagicMirror² — custom.css
+   PORTRAIT layout — 1080 × 1920 (21.5" monitor rotated 90°)
+
+   Top → bottom:
+     1. Flip clock + date  (top_bar, centered, enlarged)
+     2. Weather | Notable Days  (top_left / top_right pair)
+     3. Multi-month calendar  (upper_third, full-width row)
+     4. Newsfeed ticker  (bottom_bar, lifted above photos)
+     5. Photo slideshow  (fullscreen_below, bottom band,
+        edge-to-edge width, aspect ratio preserved)
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────
+   1. GLOBAL TOKENS  (viewport-relative)
+   ───────────────────────────────────────── */
+:root {
+  /* uniform 5px frame around the entire mirror */
+  --gap-body-top:    5px;
+  --gap-body-right:  5px;
+  --gap-body-bottom: 5px;
+  --gap-body-left:   5px;
+
+  --gap-modules: 1.2vh;
+
+  /* ≈ 21px at 1920px height */
+  --font-size: 1.1vh;
+
+  --color-text:        #ffffff;
+  --color-text-dimmed: #dddddd;
+  --color-text-bright: #ffffff;
+
+  --image-radius: 1.2vw;
+
+  /* Portrait layout bands (tune here).
+     Values chosen so every section gap = --section-gap:
+     date→cards, cards→calendar, calendar→news, news→photo. */
+  --section-gap:   1.042vh;  /* = 20px at 1920 — keep vh so it renders
+                                the same on any viewport size */
+  --photo-height:  40.3%; /* photo band height from bottom  */
+  --calendar-top:  36.4%; /* top edge of multi-month band   */
+}
+
+
+/* ─────────────────────────────────────────
+   2. FLIP CLOCK — top bar, centered, big
+   ───────────────────────────────────────── */
+.region.top.bar {
+  text-align: center;
+}
+
+.region.top.bar .module.MMM-FlipClock {
+  display: inline-block;
+  margin-bottom: 0.5vh;
+}
+
+/* The tick library sizes digits at 5em of this wrapper, so this
+   value is the overall clock scale: 1.43 × base width (~750px)
+   makes the digit cards span the full 1070px frame width. */
+.MMM-FlipClock .tick {
+  font-size: 1.43rem !important;
+}
+
+/* The empty updatenotification module above the clock still
+   carries a --gap-modules bottom margin (measured 21px) —
+   drop it while the module has no content so the clock hugs
+   the 5px top frame. When an update notice appears, the
+   margin comes back automatically. */
+.region.top.bar .module.updatenotification:not(:has(.module-content div:not(:empty))) {
+  margin-bottom: 0;
+}
+
+
+/* ─────────────────────────────────────────
+   3. WEATHER + NOTABLE DAYS — side-by-side
+      (edges aligned to the 5px body frame,
+       10px gutter between the two cards)
+   ───────────────────────────────────────── */
+.region.top.left  { width: calc(50vw - 10px); }
+.region.top.right { width: calc(50vw - 10px); }
+
+/* Card look for all info modules */
+.region.top.left .module,
+.region.top.right .module,
+.region.upper.third .module.MMM-Multimonth {
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-radius: 1.5vw;
+  padding: 1.2vh 1.5vw;
+  background: rgba(255, 255, 255, 0.03);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+
+/* ─────────────────────────────────────────
+   4. MULTI-MONTH CALENDAR — full-width band
+   ───────────────────────────────────────── */
+.region.upper.third {
+  top: var(--calendar-top);
+  transform: none;          /* main.css centers thirds with translateY(-50%) — cancel it */
+  left: var(--gap-body-left);
+  right: var(--gap-body-right);
+  width: auto;
+  text-align: center;
+}
+
+.region.upper.third .module.MMM-Multimonth {
+  display: block;    /* full-width card, edges aligned with the pair above */
+}
+
+/* Date line (default clock module, date-only) between clock and cards.
+   Its bottom margin IS the gap to the cards below. */
+.region.top.bar .module.clock {
+  /* this margin IS the gap to the cards below */
+  margin-bottom: var(--section-gap);
+}
+.region.top.bar .clock .date {
+  font-size: 1.5rem;
+  color: var(--color-text-bright);
+}
+
+
+/* ─────────────────────────────────────────
+   5. NEWSFEED — single-line running ticker
+      just above the photos
+   ───────────────────────────────────────── */
+.region.bottom.bar {
+  /* 5px frame + one section gap above the photo band */
+  bottom: calc(var(--photo-height) + 5px + var(--section-gap));
+  overflow: hidden;
+}
+
+.newsfeed .module-content {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* One marquee line: starts off-screen right (padding-left: 100%
+   = parent width), scrolls fully off the left edge. Duration must
+   match the module's updateInterval (18 s) so each headline makes
+   exactly one pass before the next one starts. */
+.newsfeed .module-content > div {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: news-ticker 18s linear infinite;
+  will-change: transform;
+}
+
+.newsfeed .newsfeed-source,
+.newsfeed .newsfeed-title {
+  display: inline;
+}
+
+@keyframes news-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+
+/* ─────────────────────────────────────────
+   6. PHOTO SLIDESHOW — bottom band, edge to edge
+   ───────────────────────────────────────── */
+.region.fullscreen.below {
+  inset:  unset !important;
+  top:    auto !important;
+  right:  auto !important;
+
+  position: fixed !important;
+  left:     5px !important;
+  bottom:   5px !important;
+
+  width:  calc(100vw - 10px) !important;
+  height: var(--photo-height) !important;
+
+  background: transparent !important;
+  border-radius: var(--image-radius);
+  overflow: hidden !important;
+  z-index: 0;
+}
+
+.MMM-Wallpaper .content-fill {
+  width:  100% !important;
+  height: 100% !important;
+
+  display:         flex !important;
+  flex-direction:  row !important;
+  justify-content: center !important;   /* photos centered in the band */
+  align-items:     flex-end !important; /* flush with screen bottom    */
+
+  background: transparent !important;
+}
+
+.MMM-Wallpaper img {
+  width:      auto !important;
+  height:     auto !important;
+  max-width:  100% !important;
+  max-height: 100% !important;
+
+  object-fit: contain !important;       /* keep aspect ratio */
+
+  margin:  0 !important;
+  display: block !important;
+  filter:  none !important;
+
+  border-radius: var(--image-radius) !important;
+}
+
+
+/* ─────────────────────────────────────────
+   7. MULTIMONTH CALENDAR THEMING
+   ───────────────────────────────────────── */
+.MMM-Multimonth .settings {
+  --background-header:   transparent;
+  --background-dow:      transparent;
+  --background-dowBlank: transparent;
+  --background-weekno:   transparent;
+  --background-event:    transparent;
+
+  --color-header:  var(--color-text-bright);
+  --color-dow:     var(--color-text-dimmed);
+  --color-weekno:  var(--color-text-dimmed);
+
+  --background-weekday: transparent;
+  --background-weekend: transparent;
+  --color-weekend:      #ff6b6b;
+
+  --background-today: var(--color-text-bright);
+  --color-today:      var(--color-background);
+
+  --back-rounding:    8px;
+  --alignment:        center;
+  --fontsize:         var(--font-size-small);
+  --smallEventMarker: 4px;
+}
+
+.MMM-Multimonth .dayContainer {
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 0;
+  position: relative; /* creates positioning context */
+}
+
+.MMM-Multimonth .events {
+  display: none !important;  /* Hide the dots completely */
+}
+
+/* ── Even grid: every day cell has identical, fixed geometry.
+      A permanent transparent 2px border reserves the highlight
+      space, so today/event styling changes COLOR only — cell
+      size and row spacing never shift. ── */
+.MMM-Multimonth .day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.75em;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: var(--back-rounding);
+}
+
+/* consistent breathing room between rows and between months */
+.MMM-Multimonth .weekContainer {
+  margin: 1px 0;
+  flex: 0 0 auto;   /* natural row height — don't stretch to fill */
+}
+.MMM-Multimonth .month {
+  padding: 0 0.6vw;
+  justify-content: flex-start;  /* top-align; a 6-week month (e.g. August)
+                                   just extends lower with the SAME row
+                                   rhythm instead of squeezing its rows */
+}
+
+/* Event indicator — hollow outline, same geometry */
+.MMM-Multimonth .dayContainer:has(.event) .day {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  background-color: transparent !important;
+}
+
+/* Today — filled pill, same geometry (module CSS uses
+   border-style: hidden which would collapse the border) */
+.MMM-Multimonth .today {
+  border-style: solid;
+  border-color: transparent;
+  background-color: var(--background-today);
+  color: var(--color-today);
+}
+
+/* Today wins over the event outline when both apply */
+.MMM-Multimonth .dayContainer:has(.event) .day.today {
+  background-color: var(--background-today) !important;
+  border-color: transparent !important;
+}
+
+
+/* ─────────────────────────────────────────
+   8. RESPONSIVE HEADER STYLING
+   ───────────────────────────────────────── */
+header {
+  line-height: 1.2;
+  padding-bottom: 0.4vh;
+  margin-bottom: 0.8vh;
+}

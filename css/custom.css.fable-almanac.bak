@@ -1,23 +1,21 @@
-/* stylelint-disable selector-class-pattern, custom-property-pattern, no-descending-specificity --
-   class names (.MMM-FlipClock, .dayContainer, …) and custom properties
-   (--background-dowBlank, …) are dictated by third-party modules and the
-   tick library — they cannot be renamed to kebab-case from here. */
-
 /* ============================================================
    MagicMirror² — custom.css
    PORTRAIT layout — 1080 × 1920 (21.5" monitor rotated 90°)
 
-   DESIGN — "instrument panel behind glass" (fable revision)
-   A split-flap departure board fused with a brass-fitted dial:
-   near-black ground so the panel disappears into the two-way
-   mirror glass, one warm brass accent reserved for headers and
-   "now/today" markers, a mechanical condensed face for the two
-   hero readouts (clock, temperature), and a warm serif carrying
-   every label so the mirror reads as one calibrated instrument
-   rather than a stack of app widgets. No boxed cards — each
-   panel is framed only by its header's hairline rule, which
-   carries a short solid-brass INDEX TICK at its aligned edge,
-   the way a gauge marks its zero-point.
+   DESIGN — "midnight almanac"
+   The mirror already IS an almanac: sunrise, weather, holy
+   days, three months of calendar, the day's news. This design
+   leans into it — a cool, moonlit nautical almanac consulted
+   at night in a dark hallway. Blue-black ground so the panel
+   dissolves into the glass; cool paper-white ink; ONE accent,
+   moonlight blue, reserved for headers, the today-pill, the
+   notable-day marks and rain (water is blue); coral is the
+   lone warm note, marking weekends and holidays the way an
+   almanac prints its red-letter days. Engineered single-weight
+   display digits (Unica One) for the two hero readouts; a
+   bookish screen serif (Spectral) for every written word.
+   Panels are framed by almanac-style DOUBLE RULES under their
+   headers — no boxed cards.
 
    Top → bottom:
      1. Flip clock + date  (top_bar, centered, enlarged)
@@ -28,125 +26,118 @@
         edge-to-edge width, aspect ratio preserved)
    ============================================================ */
 
+
 /* ─────────────────────────────────────────
    0. TYPE — self-hosted (see fonts/custom/).
-      Big Shoulders Display: mechanical numerals for the two
-      hero readouts only (clock, temperature).
-      Fraunces: warm serif for every label, header and line
-      of running text — the mirror's "voice".
+      Unica One: engineered condensed display, hero readouts
+      only (clock digits, temperature).
+      Spectral: cool bookish serif for all running text.
    ───────────────────────────────────────── */
 @font-face {
-  font-family: "Big Shoulders Display";
+  font-family: "Unica One";
   font-style: normal;
-  font-weight: 400 900;
+  font-weight: 400;
   font-display: swap;
-  src: url("fonts/big-shoulders-display.woff2") format("woff2");
+  src: url("fonts/unica-one.woff2") format("woff2");
 }
-
 @font-face {
-  font-family: Fraunces;
+  font-family: "Spectral";
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 300;
   font-display: swap;
-  src: url("fonts/fraunces.woff2") format("woff2");
+  src: url("fonts/spectral-light.woff2") format("woff2");
 }
-
 @font-face {
-  font-family: Fraunces;
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/spectral.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/spectral-semibold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Spectral";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url("fonts/fraunces-italic.woff2") format("woff2");
+  src: url("fonts/spectral-italic.woff2") format("woff2");
 }
+
 
 /* ─────────────────────────────────────────
    1. GLOBAL TOKENS  (viewport-relative)
    ───────────────────────────────────────── */
 :root {
   /* uniform 5px frame around the entire mirror */
-  --gap-body-top: 5px;
-  --gap-body-right: 5px;
+  --gap-body-top:    5px;
+  --gap-body-right:  5px;
   --gap-body-bottom: 5px;
-  --gap-body-left: 5px;
+  --gap-body-left:   5px;
+
   --gap-modules: 1.2vh;
 
   /* ≈ 21px at 1920px height */
   --font-size: 1.1vh;
 
-  /* ---- palette: brass-fitted instrument on dark glass ---- */
-  --ground: #0b0a08; /* near-black, warm undertone   */
-  --ink: #f3eee4; /* warm ivory — primary text    */
-  --ink-dim: #9c9483; /* muted taupe — secondary text */
-  --brass: #b8863a; /* the one accent: headers, "now" */
-  --brass-dim: #4a3818; /* recessed hairline rule        */
-  --status-rain: #4e86be; /* rain-family weather icons      */
-  --status-holiday: #c2604e; /* weekends / flagged calendar days */
+  /* ---- palette: moonlit almanac on dark glass ---- */
+  --ground:      #070a0e;  /* blue-black, dissolves into mirror  */
+  --ink:         #e9eef4;  /* cool paper-white — primary text    */
+  --ink-dim:     #8291a1;  /* slate — secondary text             */
+  --moon:        #4890c8;  /* THE accent: headers, today, marks, rain */
+  --moon-rule:   #23415c;  /* recessed double-rule / frame color */
+  --red-letter:  #c2604e;  /* weekends & holidays — almanac red-letter days */
 
   /* re-theme MagicMirror's own tokens so every default module
      (weather, calendar, newsfeed…) picks this up automatically */
-  --color-background: var(--ground);
-  --color-text: var(--ink-dim);
-  --color-text-dimmed: var(--ink-dim);
-  --color-text-bright: var(--ink);
-  --font-primary: "Fraunces";
-  --font-secondary: "Fraunces";
-  --font-display: "Big Shoulders Display";
+  --color-background:  var(--ground);
+  --color-text:         var(--ink-dim);
+  --color-text-dimmed:  var(--ink-dim);
+  --color-text-bright:  var(--ink);
+  --font-primary:   "Spectral";
+  --font-secondary: "Spectral";
+  --font-display:   "Unica One";
+
   --image-radius: 1.2vw;
 
   /* Portrait layout bands (tune here).
-     Sections: clock+date · weather/notable-days · multimonth ·
-     ticker · photos. Content heights are fixed, the photo band is
-     sized to what a 4:3 photo fills at full width (1070×803), and
-     the remaining slack distributes into FOUR EQUAL 56px gaps
-     (measured content-edge → content-edge at 1920). */
-  --section-gap: 2.708vh; /* = 52px margin → 56px visual gap with
-                                line-height slack — the rhythm unit  */
-  --photo-height: 41.82%; /* photo band height from bottom (803px)  */
-  --calendar-top: 35.89%; /* top edge of multi-month band  (689px)  */
+     Values chosen so every section gap = --section-gap:
+     date→cards, cards→calendar, calendar→news, news→photo. */
+  --section-gap:   1.042vh;  /* = 20px at 1920 — keep vh so it renders
+                                the same on any viewport size */
+  --photo-height:  40.3%; /* photo band height from bottom  */
+  --calendar-top:  36.4%; /* top edge of multi-month band   */
 }
 
-/* lining, tabular figures everywhere — Fraunces defaults to
-   old-style proportional figures, wrong for a clock/calendar/mirror */
+/* lining, tabular figures everywhere — Spectral's proportional
+   old-style figures are wrong for a clock/calendar/mirror */
 body {
   font-variant-numeric: lining-nums tabular-nums;
 }
 
+
 /* ─────────────────────────────────────────
    2. PANEL HEADERS — the only framing device.
-      Every info panel (weather / notable days) renders a
-      <header>; its hairline becomes the panel's sole edge.
-      A short solid-brass index tick sits ON the hairline at
-      the panel's aligned edge — the gauge's zero-point mark.
+      Almanac-style double rule below letter-spaced
+      small caps; replaces the boxed-card look.
    ───────────────────────────────────────── */
 header {
-  position: relative;
-  font-family: Fraunces, serif;
+  font-family: "Spectral", serif;
   font-weight: 600;
   font-size: 0.82rem;
-  letter-spacing: 0.14em;
-  color: var(--brass);
-  border-bottom: 1.5px solid var(--brass-dim);
+  letter-spacing: 0.2em;
+  color: var(--moon);
+  border-bottom: 4px double var(--moon-rule);
   line-height: 1.2;
   padding-bottom: 0.5vh;
   margin-bottom: 0.9vh;
 }
 
-/* the index tick — bright brass, riding the recessed hairline */
-header::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -1.5px; /* sits exactly on the border line */
-  width: 2.4em;
-  height: 3px;
-  background: var(--brass);
-}
-
-/* right-hand panel is right-aligned — its tick moves to the right edge */
-.region.top.right header::after {
-  left: auto;
-  right: 0;
-}
 
 /* ─────────────────────────────────────────
    3. FLIP CLOCK — top bar, centered, big
@@ -156,51 +147,29 @@ header::after {
 }
 
 .region.top.bar .module.MMM-FlipClock {
-  display: block; /* full frame width — the time row inside
-                              distributes edge-to-edge */
+  display: inline-block;
   margin-bottom: 0.5vh;
 }
 
 /* The tick library sizes digits at 5em of this wrapper, so this
-   value is the overall clock scale. */
+   value is the overall clock scale: 1.43 × base width (~750px)
+   makes the digit cards span the full 1070px frame width. */
 .MMM-FlipClock .tick {
   font-size: 1.43rem !important;
   font-family: var(--font-display) !important;
-  font-weight: 700; /* real 700 from the variable file — no synthesis */
 }
 
-/* Tick mounts on the module wrapper: children are an (empty) date
-   div, THE TIME ROW, and an (empty) week div. Pin the time row's
-   first and last groups to the frame edges; interior gaps flex. */
-.MMM-FlipClock .tick > div:not(.date, .week) {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-/* Kill the per-second jitter at its root: Big Shoulders digits are
-   proportional, so auto-width flap cards resize on every flip. A
-   fixed min-width makes every digit card identical — the clock's
-   geometry never moves again. (0.72em > widest digit at this size.) */
-.MMM-FlipClock .tick-flip {
-  min-width: 0.72em;
-}
-
-/* Warm bronze-plated flap housing instead of neutral grey —
-   the clock is one of the mirror's two hero readouts. */
+/* Cold slate flap housing — a station clock at night. */
 .MMM-FlipClock .tick-flip-panel {
-  background-color: #241a0e !important;
+  background-color: #101720 !important;
   color: var(--ink) !important;
 }
-
 .MMM-FlipClock .tick-text-inline {
   color: var(--ink-dim) !important;
 }
-
 .MMM-FlipClock .tick-label {
   color: var(--ink-dim) !important;
-  font-family: Fraunces, serif;
+  font-family: "Spectral", serif;
   letter-spacing: 0.08em;
 }
 
@@ -213,59 +182,51 @@ header::after {
   margin-bottom: 0;
 }
 
+
 /* ─────────────────────────────────────────
    4. WEATHER + NOTABLE DAYS — side-by-side,
-      no boxed cards: the header hairline is
-      the only edge. Edges aligned to the 5px
-      body frame, 10px gutter between panels.
+      framed only by their headers' double
+      rules. Edges aligned to the 5px body
+      frame, 10px gutter between panels.
    ───────────────────────────────────────── */
-.region.top.left {
-  width: calc(50vw - 10px);
-}
-
-.region.top.right {
-  width: calc(50vw - 10px);
-}
+.region.top.left  { width: calc(50vw - 10px); }
+.region.top.right { width: calc(50vw - 10px); }
 
 .region.top.left .module,
 .region.top.right .module,
 .region.upper.third .module.MMM-Multimonth {
   border: none;
   border-radius: 0;
-  padding: 0; /* flush with the region edge — headers, rules and
-                          content align exactly with the flip clock's span */
+  padding: 0 0.4vw;
   background: transparent;
   box-sizing: border-box;
   width: 100%;
 }
 
-/* Date line (default clock module, date-only) — warm serif, upright. */
+/* Date line (default clock module, date-only) — Spectral italic,
+   the almanac's own hand. */
 .region.top.bar .module.clock {
   margin-bottom: var(--section-gap);
 }
-
 .region.top.bar .clock .date {
-  font-family: Fraunces, serif;
-  font-style: normal;
+  font-family: "Spectral", serif;
+  font-style: italic;
   font-weight: 400;
   font-size: 1.5rem;
   color: var(--ink);
 }
 
-/* Weather — hero temperature in the mechanical display face;
-   everything else (wind, sun, feels-like) stays in the quiet
-   secondary ink so the one hero number keeps its weight. */
+/* Weather — hero temperature in the display face; wind, sun and
+   feels-like stay in quiet slate so the one number keeps its weight. */
 .weather .type-temp > span.bright {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 400;   /* Unica One ships a single weight */
 }
-
 .weather .wi.dimmed,
 .weather .feelslike .dimmed {
   color: var(--ink-dim);
 }
-
-/* rain-family icons get the one status color reserved for them */
+/* rain-family icons take the moon accent — water is blue */
 .weather .wi-rain,
 .weather .wi-showers,
 .weather .wi-thunderstorm,
@@ -275,30 +236,29 @@ header::after {
 .weather .wi-night-rain,
 .weather .wi-day-showers,
 .weather .wi-night-showers {
-  color: var(--status-rain);
+  color: var(--moon);
 }
 
 /* Notable Days (calendar module) */
 .calendar td.symbol {
-  color: var(--brass);
+  color: var(--moon);
 }
-
 .calendar td.title {
-  font-family: Fraunces, serif;
+  font-family: "Spectral", serif;
   color: var(--ink);
 }
-
 .calendar td.time {
   color: var(--ink-dim);
   font-variant-numeric: lining-nums tabular-nums;
 }
+
 
 /* ─────────────────────────────────────────
    5. MULTI-MONTH CALENDAR — full-width band
    ───────────────────────────────────────── */
 .region.upper.third {
   top: var(--calendar-top);
-  transform: none; /* main.css centers thirds with translateY(-50%) — cancel it */
+  transform: none;          /* main.css centers thirds with translateY(-50%) — cancel it */
   left: var(--gap-body-left);
   right: var(--gap-body-right);
   width: auto;
@@ -306,18 +266,17 @@ header::after {
 }
 
 .region.upper.third .module.MMM-Multimonth {
-  display: block; /* full-width card, edges aligned with the pair above */
+  display: block;    /* full-width card, edges aligned with the pair above */
 }
+
 
 /* ─────────────────────────────────────────
    6. NEWSFEED — single-line running ticker
       just above the photos
    ───────────────────────────────────────── */
 .region.bottom.bar {
-  /* offset above the photo band: 2.76vh (≈53px) puts the ticker's
-     text bottom exactly 56px above the photo edge, matching the
-     other section gaps (the ticker line-box has ~4px descender slack) */
-  bottom: calc(var(--photo-height) + 5px + 2.76vh);
+  /* 5px frame + one section gap above the photo band */
+  bottom: calc(var(--photo-height) + 5px + var(--section-gap));
   overflow: hidden;
 }
 
@@ -341,85 +300,97 @@ header::after {
 .newsfeed .newsfeed-source,
 .newsfeed .newsfeed-title {
   display: inline;
-  font-family: Fraunces, serif;
+  font-family: "Spectral", serif;
 }
-
 .newsfeed .newsfeed-source {
   color: var(--ink-dim);
   font-style: italic;
 }
-
 .newsfeed .newsfeed-title {
   color: var(--ink);
 }
 
 @keyframes news-ticker {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
+
 
 /* ─────────────────────────────────────────
    7. PHOTO SLIDESHOW — bottom band, edge to edge
    ───────────────────────────────────────── */
 .region.fullscreen.below {
-  inset: unset !important;
-  inset: auto auto 5px 5px !important;
+  inset:  unset !important;
+  top:    auto !important;
+  right:  auto !important;
+
   position: fixed !important;
-  width: calc(100vw - 10px) !important;
+  left:     5px !important;
+  bottom:   5px !important;
+
+  width:  calc(100vw - 10px) !important;
   height: var(--photo-height) !important;
+
   background: transparent !important;
+  border: 1px solid var(--moon-rule);
   border-radius: var(--image-radius);
+  box-sizing: border-box !important;
   overflow: hidden !important;
   z-index: 0;
 }
 
 .MMM-Wallpaper .content-fill {
-  width: 100% !important;
+  width:  100% !important;
   height: 100% !important;
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  align-items: flex-end !important; /* flush with screen bottom */
+
+  display:         flex !important;
+  flex-direction:  row !important;
+  justify-content: center !important;   /* photos centered in the band */
+  align-items:     flex-end !important; /* flush with screen bottom    */
+
   background: transparent !important;
 }
 
 .MMM-Wallpaper img {
-  width: auto !important;
-  height: auto !important;
-  max-width: 100% !important;
+  width:      auto !important;
+  height:     auto !important;
+  max-width:  100% !important;
   max-height: 100% !important;
-  object-fit: contain !important; /* keep aspect ratio — no cropping */
-  margin: 0 !important;
+
+  object-fit: contain !important;       /* keep aspect ratio */
+
+  margin:  0 !important;
   display: block !important;
-  filter: none !important;
+  filter:  none !important;
+
   border-radius: var(--image-radius) !important;
 }
+
 
 /* ─────────────────────────────────────────
    8. MULTIMONTH CALENDAR THEMING
    ───────────────────────────────────────── */
 .MMM-Multimonth .settings {
-  --background-header: transparent;
-  --background-dow: transparent;
+  --background-header:   transparent;
+  --background-dow:      transparent;
   --background-dowBlank: transparent;
-  --background-weekno: transparent;
-  --background-event: transparent;
-  --color-header: var(--ink);
-  --color-dow: var(--ink-dim);
-  --color-weekno: var(--ink-dim);
+  --background-weekno:   transparent;
+  --background-event:    transparent;
+
+  --color-header:  var(--ink);
+  --color-dow:     var(--ink-dim);
+  --color-weekno:  var(--ink-dim);
+
   --background-weekday: transparent;
   --background-weekend: transparent;
-  --color-weekend: var(--status-holiday);
-  --background-today: var(--brass);
-  --color-today: var(--ground);
-  --back-rounding: 8px;
-  --alignment: center;
-  --fontsize: var(--font-size-small);
+  --color-weekend:      var(--red-letter);
+
+  --background-today: var(--moon);
+  --color-today:      var(--ground);
+
+  --back-rounding:    8px;
+  --alignment:        center;
+  --fontsize:         var(--font-size-small);
   --smallEventMarker: 4px;
 }
 
@@ -431,11 +402,11 @@ header::after {
 }
 
 .MMM-Multimonth .events {
-  display: none !important; /* Hide the dots completely */
+  display: none !important;  /* Hide the dots completely */
 }
 
 /* ── Even grid: every day cell has identical, fixed geometry.
-      A permanent transparent 3px border reserves the highlight
+      A permanent transparent 2px border reserves the highlight
       space, so today/event styling changes COLOR only — cell
       size and row spacing never shift. ── */
 .MMM-Multimonth .day {
@@ -444,7 +415,7 @@ header::after {
   justify-content: center;
   height: 1.75em;
   box-sizing: border-box;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   border-radius: var(--back-rounding);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -452,31 +423,19 @@ header::after {
 /* consistent breathing room between rows and between months */
 .MMM-Multimonth .weekContainer {
   margin: 1px 0;
-  flex: 0 0 auto; /* natural row height — don't stretch to fill */
+  flex: 0 0 auto;   /* natural row height — don't stretch to fill */
 }
-
 .MMM-Multimonth .month {
   padding: 0 0.6vw;
-  justify-content: flex-start; /* top-align; a 6-week month (e.g. August)
+  justify-content: flex-start;  /* top-align; a 6-week month (e.g. August)
                                    just extends lower with the SAME row
                                    rhythm instead of squeezing its rows */
 }
 
-/* outer months sit flush with the frame — gutters live only BETWEEN
-   months, so June's left edge and August's right edge align with the
-   flip clock's span */
-.MMM-Multimonth .month:first-child {
-  padding-left: 0;
-}
-
-.MMM-Multimonth .month:last-child {
-  padding-right: 0;
-}
-
-/* Event indicator — hollow brass outline (a quiet echo of the
-   "today" fill: same hue family, lower intensity = lower priority) */
+/* Event indicator — hollow moonlight outline (same hue family as
+   the today-fill, lower intensity = lower priority) */
 .MMM-Multimonth .dayContainer:has(.event) .day {
-  border-color: rgb(184 134 58 / 55%) !important;
+  border-color: rgba(72, 144, 200, 0.55) !important;
   background-color: transparent !important;
 }
 
