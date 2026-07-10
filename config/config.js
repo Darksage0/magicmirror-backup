@@ -118,7 +118,7 @@ let config =
 					calendars:
 					[
 					{
-						fetchInterval: 7 * 24 * 60 * 60 * 1000,
+						fetchInterval: 3 * 60 * 60 * 1000,						// 3h — short enough that a transient fetch failure (e.g. cert rotation) self-heals same-day instead of waiting a week
 						symbol: "calendar-check",
 						url: "https://www.officeholidays.com/ics-all/india/tamil-nadu"
 					}
