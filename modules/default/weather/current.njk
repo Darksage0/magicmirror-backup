@@ -66,18 +66,12 @@
     {% if config.showHumidity === "temp" %}
       <span class="medium bright">{{ humidity() }}</span>
     {% endif %}
+    {% if config.showFeelsLike %}
+      <span class="feelslike-inline"><span class="dimmed">{{ "FEELS" | translate({DEGREE: ""}) }}</span> <span class="bright">{{ current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }}</span></span>
+    {% endif %}
   </div>
-  {% if (config.showFeelsLike or config.showPrecipitationAmount or config.showPrecipitationProbability) and not config.onlyTemp %}
+  {% if config.showPrecipitationAmount and not config.onlyTemp %}
     <div class="normal medium feelslike">
-      {% if config.showFeelsLike %}
-        <span class="dimmed">
-          {% if config.showHumidity === "feelslike" %}
-            {{ humidity() }}
-          {% endif %}
-          {{ "FEELS" | translate({DEGREE: current.feelsLike() | roundValue | unit("temperature") | decimalSymbol }) }}
-        </span>
-        <br />
-      {% endif %}
       {% if config.showPrecipitationAmount and current.precipitationAmount %}
         <span class="dimmed"> <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }} </span>
         <br />

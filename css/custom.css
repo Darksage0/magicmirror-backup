@@ -97,12 +97,12 @@
      Sections: clock+date · weather+forecast/notable-days ·
      multimonth · ticker · photos. Content heights are fixed, the photo
      band is sized to what a 4:3 photo fills at full width (1070×803),
-     and the remaining slack distributes into FOUR EQUAL 49px gaps
+     and the remaining slack distributes into FOUR EQUAL 56px gaps
      (measured content-edge → content-edge at 1920). */
-  --section-gap: 2.29vh; /* = 44px margin → 49px visual gap with
+  --section-gap: 2.66vh; /* = 51px margin → 56px visual gap with
                                 line-height slack — the rhythm unit  */
   --photo-height: 41.82%; /* photo band height from bottom (803px)  */
-  --calendar-top: 36.51%; /* top edge of multi-month band  (701px)  */
+  --calendar-top: 35.83%; /* top edge of multi-month band  (688px)  */
 }
 
 /* lining, tabular figures everywhere — Fraunces defaults to
@@ -254,8 +254,8 @@ header::after {
 }
 
 /* Weather — hero temperature in the mechanical display face;
-   everything else (wind, sun, feels-like) stays in the quiet
-   secondary ink so the one hero number keeps its weight. */
+   icons stay in quiet secondary ink, but every VALUE (wind, sunset,
+   UV, PoP, feels-like) reads in the same ivory as the temperature. */
 .weather .type-temp > span.bright {
   font-family: var(--font-display);
   font-weight: 700;
@@ -264,6 +264,27 @@ header::after {
 .weather .wi.dimmed,
 .weather .feelslike .dimmed {
   color: var(--ink-dim);
+}
+
+/* stats-row values → temperature ink (icons keep their dim classes) */
+.weather .module-content div.normal.medium:not(.feelslike) > span:not(.wi) {
+  color: var(--ink);
+}
+
+.weather .pop-inline {
+  color: var(--ink); /* the % value; the umbrella keeps its own dim color */
+}
+
+/* feels-like now sits inline beside the hero temperature
+   (current.njk locally patched): dim label, ivory value */
+.weather .type-temp .feelslike-inline {
+  font-size: var(--font-size-medium);
+  margin-left: 0.7em;
+  white-space: nowrap;
+}
+
+.weather .type-temp .feelslike-inline .bright {
+  color: var(--ink);
 }
 
 /* PoP (probability of precipitation) — rendered on the stats row right
@@ -369,7 +390,7 @@ header::after {
   /* offset above the photo band: 2.76vh (≈53px) puts the ticker's
      text bottom exactly 56px above the photo edge, matching the
      other section gaps (the ticker line-box has ~4px descender slack) */
-  bottom: calc(var(--photo-height) + 5px + 2.45vh);
+  bottom: calc(var(--photo-height) + 5px + 2.81vh);
   overflow: hidden;
 }
 
