@@ -84,7 +84,9 @@ let config =
 					weatherProvider: "openmeteo",
 					type: "current",
 					lat: 12.97694,
-					lon: 80.22972
+					lon: 80.22972,
+				showPrecipitationProbability: true,
+				showUVIndex: true
 			}
 		},
 		{
@@ -95,6 +97,22 @@ let config =
 					showTime: false,				// date only — time is the flip clock's job
 					showDate: true,
 					dateFormat: "dddd, LL"
+			}
+		},
+
+		{
+			module: "weather",
+			position: "top_left",					// 5-day outlook below current weather
+			config:
+			{
+					weatherProvider: "openmeteo",
+					type: "daily",
+					appendLocationNameToHeader: false,
+					lat: 12.97694,
+					lon: 80.22972,
+					maxNumberOfDays: 5,
+					ignoreToday: true,
+					fade: false
 			}
 		},
 
