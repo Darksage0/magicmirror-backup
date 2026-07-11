@@ -266,6 +266,28 @@ header::after {
   color: var(--ink-dim);
 }
 
+/* PoP (probability of precipitation) — rendered on the stats row right
+   after UV (current.njk is locally patched: the stock template put PoP
+   in the feels-like block and wrapped UV in an invalid <td> that the
+   HTML parser stripped). Swap the "PoP" word for an umbrella icon
+   matching its dim neighbours. */
+.weather .precipitationLeadText {
+  font-size: 0; /* hide the "PoP" word — the umbrella speaks for it */
+}
+
+.weather .precipitationLeadText::before {
+  content: "\f084"; /* wi-umbrella */
+  font-family: weathericons, sans-serif;
+  font-size: 1.5rem; /* rem, not em — the parent's font-size is 0 */
+  color: var(--ink-dim); /* same dim ink as the wind/sun/UV icons */
+  margin-right: 0.35em;
+}
+
+/* the feels-like block ends with a bare <br> — suppress the empty line */
+.weather .feelslike br {
+  display: none;
+}
+
 /* rain-family icons get the one status color reserved for them */
 .weather .wi-rain,
 .weather .wi-showers,
@@ -279,7 +301,9 @@ header::after {
   color: var(--status-rain);
 }
 
-/* 5-day forecast table (second weather instance, below current) */
+/* 5-day forecast table (second weather instance, below current):
+   day name hugs the left edge, and the icon + max + min form one
+   tight right-aligned block — contained, columnar, calm. */
 .region.top.left .weather table {
   width: 100%;
   font-size: 1rem;
@@ -289,10 +313,17 @@ header::after {
 .weather .day {
   font-family: Fraunces, serif;
   color: var(--ink-dim);
+  width: 100%; /* absorbs all slack — pushes icon/temps into a right group */
+}
+
+.weather td.weather-icon {
+  text-align: center;
+  padding-right: 1em;
 }
 
 .weather .max-temp {
   color: var(--ink);
+  padding-right: 0.9em;
 }
 
 .weather .min-temp {

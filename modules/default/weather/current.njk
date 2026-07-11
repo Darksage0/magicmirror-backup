@@ -36,10 +36,10 @@
         </span>
       {% endif %}
       {% if config.showUVIndex %}
-        <td class="align-right bright uv-index">
-          <div class="wi dimmed wi-hot"></div>
-          {{ current.uv_index }}
-        </td>
+        <span class="bright uv-index"><span class="wi dimmed wi-hot"></span> {{ current.uv_index }}</span>
+      {% endif %}
+      {% if config.showPrecipitationProbability and current.precipitationProbability %}
+        <span class="dimmed pop-inline"><span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}%</span>
       {% endif %}
     </div>
   {% endif %}
@@ -81,9 +81,6 @@
       {% if config.showPrecipitationAmount and current.precipitationAmount %}
         <span class="dimmed"> <span class="precipitationLeadText">{{ "PRECIP_AMOUNT" | translate }}</span> {{ current.precipitationAmount | unit("precip", current.precipitationUnits) }} </span>
         <br />
-      {% endif %}
-      {% if config.showPrecipitationProbability and current.precipitationProbability %}
-        <span class="dimmed"> <span class="precipitationLeadText">{{ "PRECIP_POP" | translate }}</span> {{ current.precipitationProbability }}% </span>
       {% endif %}
     </div>
   {% endif %}
